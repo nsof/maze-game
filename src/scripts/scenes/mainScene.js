@@ -1,19 +1,22 @@
-import Ball from "../objects/Ball";
+import Ball from "../objects/ball";
+import Maze from "../objects/maze";
 import FpsText from "../objects/fpsText";
 
 export default class MainScene extends Phaser.Scene {
 	fpsText;
+	ball;
+	maze;
 
 	constructor() {
 		super({key: "MainScene"});
 	}
 
 	create() {
-		/**
-		 * Delete all the code below to start a fresh scene
-		 */
-		new Ball(this, this.cameras.main.width / 2, 0);
+		this.ball = new Ball(this, this.cameras.main.width / 2, 0);
+		this.maze = new Maze(this, this.cameras.main.width / 2, this.cameras.main.height - 200);
 		this.fpsText = new FpsText(this);
+
+		this.physics.add.collider(this.ball, this.maze);
 
 		// display the Phaser.VERSION
 		this.add
