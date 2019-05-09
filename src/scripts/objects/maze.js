@@ -1,17 +1,16 @@
 export default class Maze extends Phaser.Physics.Arcade.Sprite {
-    MAZE_SCALE = 0.25;
+	MAZE_SCALE = 0.25;
 
-    constructor(scene, x, y) {
-        super(scene, x, y, "maze");
+	constructor(scene, x, y, mazeId) {
+        super(scene, x, y, mazeId);
 
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
- 
-        this.setCollideWorldBounds(true)
-            .setImmovable(true)
-            .setInteractive()
-            ;
+		scene.add.existing(this);
+		scene.physics.add.existing(this);
 
-        this.body.setAllowGravity(false);
-    }
+		this.setCollideWorldBounds(true)
+			.setImmovable(true)
+			.setInteractive();
+
+		this.body.setAllowGravity(false);
+	}
 }

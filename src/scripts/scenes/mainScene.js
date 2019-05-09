@@ -12,8 +12,10 @@ export default class MainScene extends Phaser.Scene {
 	}
 
 	create() {
+		// var map = this.add.tilemap("mazesTilemap");
+		// var tileset = map.addTilesetImage("mazesTilemapImage");
 		this.ball = new Ball(this, this.cameras.main.width / 2, 0);
-		this.maze = new Maze(this, this.cameras.main.width / 2, this.cameras.main.height - 200);
+		this.maze = new Maze(this, this.cameras.main.width / 2, this.cameras.main.height - 200, "mazesTilemapImage");
 		this.fpsText = new FpsText(this);
 
 		this.physics.add.collider(this.ball, this.maze);
