@@ -8,7 +8,7 @@ const DEFAULT_WIDTH = 720;
 const DEFAULT_HEIGHT = 1280;
 
 const config = {
-	backgroundColor: "#2d2d2d",
+	backgroundColor: "#A0A0A0",
 	scale: {
 		parent: "phaser-game",
 		mode: Phaser.Scale.FIT,
@@ -18,7 +18,8 @@ const config = {
 	},
 	scene: [PreloadScene, MainScene],
 	physics: {
-		default: "arcade",
+		default: "matter",
+		// default: "arcade",
 		arcade: {
 			debug: false,
 			gravity: {y: 400},

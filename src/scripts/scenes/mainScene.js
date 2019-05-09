@@ -11,14 +11,37 @@ export default class MainScene extends Phaser.Scene {
 		super({key: "MainScene"});
 	}
 
+	preload() {
+		//////move this to PreloadScene.preload() at a later time
+		this.load.image("ball", "assets/img/ball.png");
+
+		this.load.tilemapTiledJSON("maze1Tilemap", "assets/tilemaps/maze1Tilemap.json");
+		this.load.image("maze1Tileset", "assets/img/maze1.png");
+		////////////////////////////////
+	}
+
 	create() {
-		// var map = this.add.tilemap("mazesTilemap");
-		// var tileset = map.addTilesetImage("mazesTilemapImage");
-		this.ball = new Ball(this, this.cameras.main.width / 2, 0);
-		this.maze = new Maze(this, this.cameras.main.width / 2, this.cameras.main.height - 200, "mazesTilemapImage");
+		this.matter.world.setBounds();
+		this.ball = this.matter.add.image(this.cameras.main.width / 2, 0, "ball");
+		this.ball
+			.setCircle(this.ball.width / 2, { restitution: 1, friction: 0.0 })
+			.setScale(0.25)
+			.setBounce(1)
+			.setFriction(0, 0, 0);
+
+		// var map = this.make.tilemap({ key: "maze1Tilemap" });
+		// var tile = map.layer.data[0][0];
+
+		// var tileset = map.addTilesetImage("maze1Tileset");
+		// var mazeLayer = map.createDynamicLayer("maze", tileset, 
+		// 		this.cameras.main.width/2 - tile.width/2, this.cameras.main.height -200);
+		// mazeLayer.setCollision(1);
+		// this.matter.world.convertTilemapLayer(mazeLayer);
+		// this.maze = new Phaser.Physics.Matter.TileBody(this.matter.world, tile, { addToWorld:true });
+
 		this.fpsText = new FpsText(this);
 
-		this.physics.add.collider(this.ball, this.maze);
+		// this.physics.add.collider(this.ball, this.maze);
 
 		// display the Phaser.VERSION
 		this.add
