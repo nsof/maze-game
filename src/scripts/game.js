@@ -22,10 +22,6 @@ const config = {
 		matter: {
 			debug: true,
 		},
-		arcade: {
-			debug: false,
-			gravity: {y: 400},
-		},
 	},
 };
 
