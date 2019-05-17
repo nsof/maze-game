@@ -1,16 +1,17 @@
-export default class Ball extends Phaser.Physics.Arcade.Sprite {
-	BALL_SCALE = 0.25;
-	BALL_SIZE = 144;
+export default class Ball {
+	ball;
 
 	constructor(scene, x, y) {
-		super(scene, x, y, "ball");
+		this.ball = scene.matter.add.sprite(x, y, "ball");
+		// scene.add.existing(this.ball);
+		// scene.physics.add.existing(this.ball);
 
-		scene.add.existing(this);
-		scene.physics.add.existing(this);
-
-		this.setCollideWorldBounds(true)
+		this.ball.setCircle(this.ball.width / 2, { restitution: 1.0, friction: 0.0 })
+			.setScale(0.25)
 			.setBounce(1)
-			.setScale(this.BALL_SCALE)
-			.setVelocityX(0);
+			.setFriction(0, 0, 0)
+			.setDensity(0.1)
+			;
 	}
+
 }

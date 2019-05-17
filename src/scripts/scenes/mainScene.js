@@ -4,9 +4,10 @@ import FpsText from "../objects/fpsText";
 
 export default class MainScene extends Phaser.Scene {
 	fpsText;
-	// ball;
+	ball;
 	mazeTile;
 	keys;
+	maze;
 
 	constructor() {
 		super({key: "MainScene"});
@@ -29,35 +30,28 @@ export default class MainScene extends Phaser.Scene {
 
 	create() {
 		this.matter.world.setBounds();
-		var ball = this.matter.add.image(this.cameras.main.width / 2, 0, "ball");
-		ball.setCircle(ball.width / 2, { restitution: 1.0, friction: 0.0 })
-			.setScale(0.25)
-			.setBounce(1)
-			.setFriction(0, 0, 0);
+		this.ball = new Ball(this, this.cameras.main.width / 2, this.cameras.main.height / 2);
+
+		this.maze = new Maze(this, this.cameras.main.width / 2, this.cameras.main.height / 2, "maze1");
 		
-		var map = this.make.tilemap({ key: "maze1Tilemap" });
-		// var tileset = map.addTilesetImage("maze1Tileset");
-		// var tileOutline = tileset.getTileData(0).objectgroup.objects[0];
-		// var mazeTile = map.layers[0].data[0][0];
-		// var mazeLayer = map.createDynamicLayer("maze", tileset, 0, 0);
-		// var tileData = mazeTile.getTileData();
-		var tileSet = map.tilesets[0];
-		var tileOutline =  tileSet.tileData[0].objectgroup.objects[0];
+		// var map = this.make.tilemap({ key: "maze1Tilemap" });
+		// var tileSet = map.tilesets[0];
+		// var tileOutline =  tileSet.tileData[0].objectgroup.objects[0];
 
-		tileOutline.polygon.forEach(o => o.x += 10) // why is this????
+		// tileOutline.polygon.forEach(o => o.x += 10) // why is this????
 
-		var config = {
-			type: 'fromVertices',
-			verts: [tileOutline.polygon],
-		}
+		// var config = {
+		// 	type: 'fromVertices',
+		// 	verts: [tileOutline.polygon],
+		// }
 
-		var options = {
-			shape: config,
-			ignoreGravity: true,
-			isStatic: true,
-		}
-		this.mazeTile = this.matter.add.image(this.cameras.main.width / 2 - tileSet.tileWidth / 2, 
-			this.cameras.main.height -200, "maze1Tileset", undefined, options);
+		// var options = {
+		// 	shape: config,
+		// 	ignoreGravity: true,
+		// 	isStatic: true,
+		// }
+		// this.mazeTile = this.matter.add.image(this.cameras.main.width / 2 - tileSet.tileWidth / 2, 
+		// 	this.cameras.main.height -200, "maze1Tileset", undefined, options);
 		
 
 		this.fpsText = new FpsText(this);
@@ -65,18 +59,19 @@ export default class MainScene extends Phaser.Scene {
 
 	update() {
 		this.fpsText.update(this);
+		this.maze.update(this);
 
-		var ROTATION_SPEED = 0.1;
-		var r = this.mazeTile.rotation;
+		// var ROTATION_SPEED = 0.1;
+		// var r = this.mazeTile.rotation;
 
-		if (this.keys.left.isDown) {
-			r -= ROTATION_SPEED;
-		} else if (this.keys.right.isDown) {
-			r += ROTATION_SPEED;
-		} else {
-		}
+		// if (this.keys.left.isDown) {
+		// 	r -= ROTATION_SPEED;
+		// } else if (this.keys.right.isDown) {
+		// 	r += ROTATION_SPEED;
+		// } else {
+		// }
 		
-		r %= Phaser.Math.PI2;
-		this.mazeTile.rotation = r;
+		// r %= Phaser.Math.PI2;
+		// this.mazeTile.rotation = r;
 	}
 }
