@@ -1,6 +1,8 @@
 import "phaser";
 import "@babel/polyfill";
 
+import PhaserMatterCollisionPlugin from "phaser-matter-collision-plugin/src";
+
 import MainScene from "./scenes/mainScene";
 import PreloadScene from "./scenes/preloadScene";
 
@@ -23,6 +25,13 @@ const config = {
 			debug: true,
 		},
 	},
+	plugins: {
+		scene: [{
+				plugin: PhaserMatterCollisionPlugin, // The plugin class
+				key: "matterCollision", // Where to store in Scene.Systems, e.g. scene.sys.matterCollision
+				mapping: "matterCollision" // Where to store in the Scene, e.g. scene.matterCollision
+		}]
+	}
 };
 
 window.addEventListener("load", () => {

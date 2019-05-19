@@ -1,7 +1,10 @@
 export default class Maze  {
 	mazeTile;
+	scene;
 
 	constructor(scene, x, y, mazeId) {
+		this.scene = scene;
+
 		var map = scene.make.tilemap({ key: "maze1Tilemap" });
 		var tileSet = map.tilesets[0];
 		var tileOutline = tileSet.tileData[0].objectgroup.objects[0];
@@ -19,16 +22,20 @@ export default class Maze  {
 			isStatic: true,
 		}
 		this.mazeTile = scene.matter.add.sprite(x, y, "maze1Tileset", undefined, options);
+
+		this.scene.events.on("update", this.update, this);
+		this.scene.events.once("shutdown", this.destroy, this);
+		this.scene.events.once("destroy", this.destroy, this);
 	}
 
-	update(scene) {
+	update(time, delta) {
 	
 		var ROTATION_SPEED = 0.1;
 		var r = this.mazeTile.rotation;
 
-		if (scene.keys.left.isDown) {
+		if (this.scene.keys.left.isDown) {
 			r -= ROTATION_SPEED;
-		} else if (scene.keys.right.isDown) {
+		} else if (this.scene.keys.right.isDown) {
 			r += ROTATION_SPEED;
 		} else {
 		}
@@ -37,5 +44,17 @@ export default class Maze  {
 		this.mazeTile.rotation = r;
 	}
 
+	shutdown(sceneSystem, data) {
+		console.log("shutting down");
+		destroy();
+	}
 
+	destroy(sceneSystem) { //Phaser.Scenes.Systems
+		console.log("destroying maze");
+		this.scene.events.off("update", this.update, this);
+		this.scene.events.off("shutdown", this.shutdown, this);
+		this.scene.events.off("destroy", this.destroy, this);
+
+		this.mazeTile.destroy();
+	}
 }
