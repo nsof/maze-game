@@ -29,12 +29,12 @@ export default class MainScene extends Phaser.Scene {
 
 	create() {
 		var PADDING = 100;
-		this.matter.world.setBounds(PADDING, PADDING, this.cameras.main.width - 2*PADDING, 
-			this.cameras.main.height - 2*PADDING, 10);
+		this.matter.world.setBounds(PADDING, PADDING, this.game.config.width - 2*PADDING, 
+			this.game.config.height - 2*PADDING, 10);
 
-		this.ball = new Ball(this, this.cameras.main.width / 2, this.cameras.main.height / 2);
+		this.ball = new Ball(this, this.game.config.width / 2, this.game.config.height / 2);
 
-		this.maze = new Maze(this, this.cameras.main.width / 2, this.cameras.main.height / 2, "maze1");
+		this.maze = new Maze(this, this.game.config.width / 2, this.game.config.height / 2, "maze1");
 
 		this.setBallOutOfBoundsDetection();
 
