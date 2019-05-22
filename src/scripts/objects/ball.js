@@ -4,11 +4,10 @@ export default class Ball {
 	constructor(scene, x, y) {
 		this.ball = scene.matter.add.sprite(x, y, "ball");
 
-		this.ball.setCircle(this.ball.width / 2, { restitution: 1.0, friction: 0.0 })
+		this.ball
+			.setCircle(this.ball.width / 2, {restitution: 1.0, friction: 0.0})
 			.setScale(0.25)
 			.setBounce(1)
-			.setFriction(0, 0, 0)
-			;
+			.setFriction(0, 0, 0);
 	}
-
 }

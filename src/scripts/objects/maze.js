@@ -1,27 +1,24 @@
-export default class Maze  {
+export default class Maze {
 	mazeTile;
 	scene;
 
-	constructor(scene, x, y, mazeId) {
+	constructor(scene, x, y, level) {
 		this.scene = scene;
-
-		var map = scene.make.tilemap({ key: "maze1Tilemap" });
-		var tileSet = map.tilesets[0];
-		var tileOutline = tileSet.tileData[0].objectgroup.objects[0];
-		//for some reason the matter body is somewhat offset 
-		tileOutline.polygon.forEach(o => o.x += 10)
-
-		var config = {
-			type: 'fromVertices',
-			verts: [tileOutline.polygon],
-		}
-
+		// this.mazeTile = scene.matter.add.sprite(x, y, "emoji", "1f62c", {
+		// 	ignoreGravity: true,
+		// 	inertia: Infinity,
+		// 	isStatic: true,
+		// });
+		// this.mazeTile = scene.matter.add.sprite(x, y+250, "sheet", "banana", {
+		// 	shape: shapes.banana,
+		// });
+		var shapeName = "maze" + level;
+		var shapes = this.scene.cache.json.get("mazes-shapes");
+		var shape = shapes[shapeName];
 		var options = {
-			shape: config,
-			ignoreGravity: true,
-			isStatic: true,
+			shape: shape,
 		}
-		this.mazeTile = scene.matter.add.sprite(x, y, "maze1Tileset", undefined, options);
+		this.mazeTile = scene.matter.add.sprite(x, y, "mazes-sprites", shapeName, options);
 
 		this.scene.events.on("update", this.update, this);
 		this.scene.events.once("shutdown", this.destroy, this);
@@ -29,7 +26,6 @@ export default class Maze  {
 	}
 
 	update(time, delta) {
-	
 		var ROTATION_SPEED = 0.1;
 		var r = this.mazeTile.rotation;
 
@@ -49,7 +45,8 @@ export default class Maze  {
 		destroy();
 	}
 
-	destroy(sceneSystem) { //Phaser.Scenes.Systems
+	destroy(sceneSystem) {
+		//Phaser.Scenes.Systems
 		console.log("destroying maze");
 		this.scene.events.off("update", this.update, this);
 		this.scene.events.off("shutdown", this.shutdown, this);

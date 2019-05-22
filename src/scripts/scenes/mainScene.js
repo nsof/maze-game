@@ -16,35 +16,41 @@ export default class MainScene extends Phaser.Scene {
 		//////move this to PreloadScene.preload() at a later time
 		this.load.image("ball", "assets/img/ball.png");
 
-		this.load.tilemapTiledJSON("maze1Tilemap", "assets/tilemaps/maze1Tilemap.json");
-		this.load.image("maze1Tileset", "assets/img/maze1.png");
+		this.load.atlas("mazes-sprites", "assets/atlas/mazes.png", "assets/atlas/mazes-sprites.json");
+		this.load.json("mazes-shapes", "assets/atlas/mazes-shapes.json");
+
+
 		////////////////////////////////
 
 		this.keys = this.input.keyboard.addKeys({
 			left: Phaser.Input.Keyboard.KeyCodes.LEFT,
 			right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
 		});
-
 	}
 
 	create() {
 		var PADDING = 100;
-		this.matter.world.setBounds(PADDING, PADDING, this.game.config.width - 2*PADDING, 
-			this.game.config.height - 2*PADDING, 10);
+		this.matter.world.setBounds(
+			PADDING,
+			PADDING,
+			this.game.config.width - 2 * PADDING,
+			this.game.config.height - 2 * PADDING,
+			10
+		);
+
+		var level = 2;
+
+		this.maze = new Maze(this, this.game.config.width / 2, this.game.config.height / 2+50, level);
 
 		this.ball = new Ball(this, this.game.config.width / 2, this.game.config.height / 2);
 
-		this.maze = new Maze(this, this.game.config.width / 2, this.game.config.height / 2, "maze1");
-
 		this.setBallOutOfBoundsDetection();
 
-		if (this.matter.world.drawDebug === true)
-			this.fpsText = new FpsText(this);
+		if (this.matter.world.drawDebug === true) this.fpsText = new FpsText(this);
 	}
 
 	update() {
-		if (this.matter.world.drawDebug === true)
-			this.fpsText.update(this);
+		if (this.matter.world.drawDebug === true) this.fpsText.update(this);
 
 		//this.maze.update(this);
 	}
@@ -58,20 +64,28 @@ export default class MainScene extends Phaser.Scene {
 		this.ballOutOfBoundsDetection = this.matterCollision.addOnCollideStart({
 			objectA: this.ball.ball,
 			objectB: [b, l, r, t],
-			callback: eventData => {
-				this.scene.restart();
+			callback: (eventData) => {
+				// this.scene.restart();
+				console.log("ball collision with walls");
 			},
-			context: this
+			context: this,
 		});
+
+		// this.matter.world.on("collisionstart", this.ballCollisionDetection, this);
 	}
 
-	shutdown () {
+	shutdown() {
 		this.destroy();
 	}
 
-
-	destroy () {
+	destroy() {
 		console.log("destroying scene");
 		this.ballOutOfBoundsDetection();
+
+		// this.matter.world.off("collisionstart", this.ballCollisionDetection, this);
+	}
+
+	ballCollisionDetection(event) {
+		console.log("ball collision detection");
 	}
 }
