@@ -15,7 +15,7 @@
  "tiles":[
         {
          "id":0,
-         "image":"..\/img\/maze1.400x400.png",
+         "image":"maze1.400x400.png",
          "imageheight":400,
          "imagewidth":400,
          "objectgroup":
@@ -122,7 +122,7 @@
         }, 
         {
          "id":1,
-         "image":"..\/img\/maze2.png",
+         "image":"maze2.png",
          "imageheight":400,
          "imagewidth":400,
          "objectgroup":

@@ -14,11 +14,11 @@ export default class MainScene extends Phaser.Scene {
 
 	preload() {
 		//////move this to PreloadScene.preload() at a later time
-		this.load.image("ball", "assets/img/ball.png");
 
-		this.load.atlas("mazes-sprites", "assets/atlas/mazes.png", "assets/atlas/mazes-sprites.json");
-		this.load.json("mazes-shapes", "assets/atlas/mazes-shapes.json");
+		this.load.image("ball", "assets/ball.png");
 
+		this.load.atlas("mazes-sprites", "assets/mazes-sprites.png", "assets/mazes-sprites.json");
+		this.load.json("mazes-tileset", "assets/mazes-tileset.json");
 
 		////////////////////////////////
 
@@ -40,7 +40,7 @@ export default class MainScene extends Phaser.Scene {
 
 		var level = 2;
 
-		this.maze = new Maze(this, this.game.config.width / 2, this.game.config.height / 2+50, level);
+		this.maze = new Maze(this, this.game.config.width / 2, this.game.config.height / 2, level);
 
 		this.ball = new Ball(this, this.game.config.width / 2, this.game.config.height / 2);
 
@@ -66,7 +66,7 @@ export default class MainScene extends Phaser.Scene {
 			objectB: [b, l, r, t],
 			callback: (eventData) => {
 				// this.scene.restart();
-				console.log("ball collision with walls");
+				// console.log("ball collision with walls");
 			},
 			context: this,
 		});

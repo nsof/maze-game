@@ -4,25 +4,45 @@ export default class Maze {
 
 	constructor(scene, x, y, level) {
 		this.scene = scene;
-		// this.mazeTile = scene.matter.add.sprite(x, y, "emoji", "1f62c", {
-		// 	ignoreGravity: true,
-		// 	inertia: Infinity,
-		// 	isStatic: true,
-		// });
-		// this.mazeTile = scene.matter.add.sprite(x, y+250, "sheet", "banana", {
-		// 	shape: shapes.banana,
-		// });
-		var shapeName = "maze" + level;
-		var shapes = this.scene.cache.json.get("mazes-shapes");
-		var shape = shapes[shapeName];
-		var options = {
-			shape: shape,
-		}
-		this.mazeTile = scene.matter.add.sprite(x, y, "mazes-sprites", shapeName, options);
+
+		var mazeID = level.toString();
+
+		var options = this.getOptions(mazeID);
+		
+		this.mazeTile = scene.matter.add.sprite(x, y, "mazes-sprites", mazeID, options);
 
 		this.scene.events.on("update", this.update, this);
 		this.scene.events.once("shutdown", this.destroy, this);
 		this.scene.events.once("destroy", this.destroy, this);
+	}
+
+	getOptions(mazeID) {
+		var vertices = this.getShapeFromTiledTilesetJSON(mazeID);
+
+		var shape = {
+			type: 'fromVertices',
+			verts: [vertices],
+		}
+
+		var options = {
+			shape: shape,
+			ignoreGravity: true,
+			isStatic: true,
+		}
+
+		return options;
+	}
+
+	getShapeFromTiledTilesetJSON(mazeID) {
+		var tileset = this.scene.cache.json.get('mazes-tileset');
+		var tile = tileset.tiles.find(tile => {
+			return tile.properties[0].value == mazeID;
+		});
+
+		var tileShape = tile.objectgroup.objects[0].polygon;
+		//for some reason the matter body is somewhat offset 
+		tileShape.forEach(o => o.x += 10)
+		return tileShape;
 	}
 
 	update(time, delta) {

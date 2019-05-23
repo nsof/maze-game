@@ -12,7 +12,7 @@
         "smartupdate": "$TexturePacker:SmartUpdate:80919c52b607def3c7f647a71f5d2f19:8df71fe38bb708a3bec8b99fc4709ddb:3b6ee1b3efdb705ed941d972d580542a$"
     },
     "frames": {
-        "maze1": {
+        "2": {
             "rotated": false,
             "trimmed": false,
             "sourceSize": {
@@ -32,7 +32,7 @@
                 "h": 400
             }
         },
-        "maze2": {
+        "1": {
             "rotated": false,
             "trimmed": false,
             "sourceSize": {
@@ -40,7 +40,7 @@
                 "h": 400
             },
             "spriteSourceSize": {
-                "x": 400,
+                "x": 0,
                 "y": 0,
                 "w": 400,
                 "h": 400
