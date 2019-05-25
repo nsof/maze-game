@@ -19,6 +19,7 @@ export default class MainScene extends Phaser.Scene {
 
 		this.load.atlas("mazes-sprites", "assets/mazes-sprites.png", "assets/mazes-sprites.json");
 		this.load.json("mazes-tileset", "assets/mazes-tileset.json");
+		this.load.json("mazes-shapes", "assets/mazes-shapes.json");
 
 		////////////////////////////////
 
@@ -38,7 +39,7 @@ export default class MainScene extends Phaser.Scene {
 			10
 		);
 
-		var level = 2;
+		var level = 1;
 
 		this.maze = new Maze(this, this.game.config.width / 2, this.game.config.height / 2, level);
 

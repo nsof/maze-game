@@ -10,18 +10,31 @@ export default class Maze {
 		var options = this.getOptions(mazeID);
 		
 		this.mazeTile = scene.matter.add.sprite(x, y, "mazes-sprites", mazeID, options);
+		// the following fixes the offset of the body
+		this.mazeTile.setOriginFromFrame();
 
 		this.scene.events.on("update", this.update, this);
 		this.scene.events.once("shutdown", this.destroy, this);
 		this.scene.events.once("destroy", this.destroy, this);
 	}
 
+	getOptionsFromPE(mazeID) {
+		var shapes = this.scene.cache.json.get("mazes-shapes");
+		var shape = shapes[mazeID];
+		var [dx, dy] = [-75, 0];
+		shape.fixtures.forEach(fixture => fixture.vertices.forEach(verticelist => verticelist.forEach(v => (v.x +=dx, v.y -=dy))));
+		var options = {
+			shape: shape,
+		}
+		return options;
+	}
+
 	getOptions(mazeID) {
-		var vertices = this.getShapeFromTiledTilesetJSON(mazeID);
+		var parts = this.getShapeFromTiledTilesetJSON(mazeID);
 
 		var shape = {
 			type: 'fromVertices',
-			verts: [vertices],
+			verts: parts,
 		}
 
 		var options = {
@@ -39,10 +52,11 @@ export default class Maze {
 			return tile.properties[0].value == mazeID;
 		});
 
-		var tileShape = tile.objectgroup.objects[0].polygon;
-		//for some reason the matter body is somewhat offset 
-		tileShape.forEach(o => o.x += 10)
-		return tileShape;
+		var parts = tile.objectgroup.objects;
+
+		parts = parts.map(part => part.polygon)
+
+		return parts;
 	}
 
 	update(time, delta) {
