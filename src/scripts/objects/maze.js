@@ -18,17 +18,6 @@ export default class Maze {
 		this.scene.events.once("destroy", this.destroy, this);
 	}
 
-	getOptionsFromPE(mazeID) {
-		var shapes = this.scene.cache.json.get("mazes-shapes");
-		var shape = shapes[mazeID];
-		var [dx, dy] = [-75, 0];
-		shape.fixtures.forEach(fixture => fixture.vertices.forEach(verticelist => verticelist.forEach(v => (v.x +=dx, v.y -=dy))));
-		var options = {
-			shape: shape,
-		}
-		return options;
-	}
-
 	getOptions(mazeID) {
 		var parts = this.getShapeFromTiledTilesetJSON(mazeID);
 
@@ -53,7 +42,14 @@ export default class Maze {
 		});
 
 		var parts = tile.objectgroup.objects;
-
+		// if (parts.length > 1) {
+			parts.forEach(part => {
+				part.polygon.forEach(p => {
+					p.x += part.x;
+					p.y += part.y;
+				})
+			})
+		// }
 		parts = parts.map(part => part.polygon)
 
 		return parts;
