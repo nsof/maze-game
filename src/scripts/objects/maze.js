@@ -56,8 +56,9 @@ export default class Maze {
 	}
 
 	update(time, delta) {
-		this.mazeTile.rotation += this.getInputRotatationDelta();
-		this.mazeTile.rotation %= Phaser.Math.PI2;
+		var r = this.mazeTile.rotation + this.getInputRotatationDelta();
+		r = Phaser.Math.Angle.Wrap(r);
+		this.mazeTile.setRotation(r);
 	}
 
 	getInputRotatationDelta() {
