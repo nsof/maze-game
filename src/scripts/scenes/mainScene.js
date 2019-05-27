@@ -39,7 +39,7 @@ export default class MainScene extends Phaser.Scene {
 			10
 		);
 
-		var level = 1;
+		var level = 2;
 
 		this.maze = new Maze(this, this.game.config.width / 2, this.game.config.height / 2, level);
 
@@ -52,8 +52,6 @@ export default class MainScene extends Phaser.Scene {
 
 	update() {
 		if (this.matter.world.drawDebug === true) this.fpsText.update(this);
-
-		//this.maze.update(this);
 	}
 
 	setBallOutOfBoundsDetection() {

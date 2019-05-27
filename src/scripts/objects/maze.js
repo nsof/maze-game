@@ -56,18 +56,28 @@ export default class Maze {
 	}
 
 	update(time, delta) {
-		var ROTATION_SPEED = 0.1;
-		var r = this.mazeTile.rotation;
+		this.mazeTile.rotation += this.getInputRotatationDelta();
+		this.mazeTile.rotation %= Phaser.Math.PI2;
+	}
+
+	getInputRotatationDelta() {
+	//return rotation speed 
+		var MAX_ROTATION_SPEED = 0.1;
+		var d = 0;
 
 		if (this.scene.keys.left.isDown) {
-			r -= ROTATION_SPEED;
+			d = -MAX_ROTATION_SPEED;
 		} else if (this.scene.keys.right.isDown) {
-			r += ROTATION_SPEED;
-		} else {
+			d = MAX_ROTATION_SPEED;
+		} else if (this.scene.input.activePointer.isDown) {
+			if (this.scene.input.activePointer.downX > this.scene.game.config.width/2) {
+				d = MAX_ROTATION_SPEED;
+			} else {
+				d = -MAX_ROTATION_SPEED;
+			}
 		}
 
-		r %= Phaser.Math.PI2;
-		this.mazeTile.rotation = r;
+		return d;
 	}
 
 	shutdown(sceneSystem, data) {
