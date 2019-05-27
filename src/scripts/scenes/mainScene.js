@@ -26,6 +26,9 @@ export default class MainScene extends Phaser.Scene {
 		this.keys = this.input.keyboard.addKeys({
 			left: Phaser.Input.Keyboard.KeyCodes.LEFT,
 			right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+			up: Phaser.Input.Keyboard.KeyCodes.UP,
+			down: Phaser.Input.Keyboard.KeyCodes.DOWN,
+			enter: Phaser.Input.Keyboard.KeyCodes.ENTER,
 		});
 	}
 
@@ -52,6 +55,18 @@ export default class MainScene extends Phaser.Scene {
 
 	update() {
 		if (this.matter.world.drawDebug === true) this.fpsText.update(this);
+
+		var MAX_ROTATION_SPEED = 0.1;
+		var r = this.cameras.main.rotation;
+		if (this.keys.up.isDown) {
+			r += MAX_ROTATION_SPEED;
+		} else if (this.keys.down.isDown) {
+			r -= MAX_ROTATION_SPEED;
+		} else if (this.keys.enter.isDown) {
+			r = 0;
+		}
+		r = Phaser.Math.Angle.Wrap(r);
+		this.cameras.main.setRotation(r)
 	}
 
 	setBallOutOfBoundsDetection() {
